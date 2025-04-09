@@ -16,6 +16,11 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense }) => { {/* Se r
             return;
         }
 
+        if (editedExpense.amount > 1000000000) {
+            alert("El monto no puede superar los 1.000 millones.");
+            return;
+        }
+
         // Llama a la función para actualizar el gasto
         onUpdateExpense({
             ...editedExpense,
@@ -46,11 +51,11 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense }) => { {/* Se r
             <table className="table table-striped table-bordered">
                 <thead className="thead-dark">
                     <tr>
-                        <th>ID</th>
-                        <th>Detalle</th>
+                        <th>N°</th>
+                        <th>Descripción</th>
                         <th>Monto</th>
                         <th>Fecha</th>
-                        <th>Acciones</th>
+                        <th>Editar/Borrar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,8 +83,12 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense }) => { {/* Se r
                                     <td>
                                         <input
                                             type="date"
-                                            value={new Date(editedExpense.date).toISOString().split('T')[0]}
-                                            onChange={(e) => handleInputChange('date', e.target.value)}
+                                            value={
+                                                editedExpense.date && !isNaN(new Date(editedExpense.date))
+                                                ? new Date(editedExpense.date).toISOString().split("T")[0]
+                                                : ""
+                                            }
+                                            onChange={(e) => handleInputChange("date", e.target.value)}
                                             required
                                         />
                                     </td>
@@ -97,7 +106,7 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense }) => { {/* Se r
                                     <td>{expense.id}</td>
                                     <td>{expense.description}</td>
                                     <td>{expense.amount ? expense.amount.toLocaleString('es-PY') : 'N/A'}</td>
-                                    <td>{new Date(expense.date).toLocaleDateString('es-PY')}</td>
+                                    <td>{expense.date}</td>
                                     <td>
                                         <button
                                             className="btn btn-warning btn-sm me-2"

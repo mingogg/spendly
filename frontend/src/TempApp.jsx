@@ -3,7 +3,7 @@ import axios from 'axios';
 import Header from './components/Header';
 import Dashboard from './components/Dashboard';
 import AddExpense from './components/AddExpense';
-import EditExpense from './components/EditExpense';
+import EditExpense from './components/EditExpenseForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
@@ -28,19 +28,32 @@ const App = () => {
   };
 
   const handleUpdateExpense = async (updatedExpense) => {
+    let formattedDate = "";
+  
     try {
-      const formattedDate = new Date(updatedExpense.date).toISOString().split('T')[0];
-      const expenseToSend = { ...updatedExpense, date: formattedDate, amount: parseInt(updatedExpense.amount, 10) };
-
+      formattedDate = new Date(updatedExpense.date).toISOString().split("T")[0];
+    } catch (err) {
+      alert("La fecha es inválida. Por favor seleccioná una correcta.");
+      return;
+    }
+  
+    const expenseToSend = {
+      ...updatedExpense,
+      date: formattedDate,
+      amount: parseInt(updatedExpense.amount, 10),
+    };
+  
+    try {
       console.log("Datos enviados al backend:", expenseToSend);
-
       await axios.put(`http://127.0.0.1:5000/expenses/${updatedExpense.id}`, expenseToSend);
-      setExpenses((prevExpenses) => prevExpenses.map((expense) => expense.id === updatedExpense.id ? updatedExpense : expense));
-      setEditingExpense(null);
+      await fetchExpenses(); // 🔁 Recarga los datos del backend
+      setEditingExpense(null); // ✅ Cierra el formulario de edición
     } catch (error) {
-      console.error('Error updating expense:', error);
+      console.error("Error updating expense:", error);
+      alert("Hubo un error al actualizar el gasto.");
     }
   };
+  
 
   const handleAddExpense = (newExpense) => {
     setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
@@ -77,7 +90,13 @@ const App = () => {
         ) : (
           <>
             <AddExpense onAddExpense={fetchExpenses} />
-            <Dashboard expenses={expenses} onDeleteExpense={handleDeleteExpense} onEditExpense={handleEditExpense} />
+            <Dashboard
+            expenses={expenses}
+            onDeleteExpense={handleDeleteExpense}
+            onEditExpense={handleEditExpense}
+            onUpdateExpense={handleUpdateExpense}
+/>
+
           </>
         )}
       </main>

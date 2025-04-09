@@ -9,14 +9,24 @@ const AddExpense = ({ onAddExpense }) => {
     const [date, setDate] = useState("");
     const [error, setError] = useState("");
 
+    const today = new Date();
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(today.getFullYear() - 1);
+    const maxDate = today.toISOString().split("T")[0];
+    const minDate = oneYearAgo.toISOString().split("T")[0];
+
     const handleSubmit = async (e) => {
-        event.preventDefault();
-        console.log({ description, amount, date });
+        e.preventDefault();
+        
+        if (!description || !amount || !date) {
+            alert("Todos los campos son requeridos");
+            return;
+        }
 
         try {
             const response = await axios.post('http://127.0.0.1:5000/expenses', {
                 description,
-                amount: parseInt(amount),
+                amount: Number(amount),
                 date
             });
 
@@ -33,8 +43,9 @@ const AddExpense = ({ onAddExpense }) => {
 
     return (
         <form onSubmit={handleSubmit} className="container mt-4">
+            {/* Div para el input de descripción */}
             <div className="form-group">
-                <label htmlFor="description">Descripción:</label>
+                <label htmlFor="description">¿En qué gastaste?</label>
                 <input
                     type="text"
                     id="description"
@@ -43,6 +54,8 @@ const AddExpense = ({ onAddExpense }) => {
                     onChange={(e) => setDescription(e.target.value)}
                 />
             </div>
+            
+            {/* Div para el input de monto */}
             <div className="form-group">
                 <label htmlFor="amount" >Monto:</label>
                 <input
@@ -53,18 +66,23 @@ const AddExpense = ({ onAddExpense }) => {
                     onChange={(e) => setAmount(e.target.value)}
                 />
             </div>
+
+            {/* Div para el input de fecha */}
             <div className="form-group">
                 <label htmlFor="date">Fecha:</label>
                 <input
                     type="date"
+                    min={minDate}
+                    max={maxDate}
                     id="date"
                     name="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                 />
             </div>
-            <button className="btn btn-primary mt-0 mb-0">Agregar Gasto</button>
+            <button className="btn btn-primary mt-0 mb-0">Agregar</button>
         </form >
+        
     );
 };
 

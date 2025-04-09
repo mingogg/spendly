@@ -18,3 +18,7 @@ form {
     align-items: center;
     justify-content: space-evenly;
 }
+
+table th, td{
+    text-align: center;
+}

@@ -4,6 +4,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 // Es el componente principal que contiene la estructura de la aplicación, aquí se está importando TempApp.jsx y renombrandolo como App
 import App from './TempApp.jsx';
+// Importamos nuestros estilos, ya que Vite no soporta CSS Modules por defecto, se importan los estilos globales
+import './styles/styles.css';
+
 
 // [ReactDOM.createRoot] es el método de React 18+ para iniciar una aplicación, crea la 'raíz' que controla el árbol de componentes de la aplicación
 // [document.getElementById('root')] busca en el DOM un elemento con el id 'root', este elemento es el contenedor principal donde React insertará toda la aplicación
