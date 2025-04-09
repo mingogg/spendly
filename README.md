@@ -1,1 +1,1 @@
-Backend practice to create conections between the DB and the frontend.
+Práctica de backend para crear conexiones backend con la DB. Se retoma el proyecto para finalizarlo.
