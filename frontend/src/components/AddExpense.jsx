@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import '../styles/styles.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
 
 
 
@@ -94,9 +93,10 @@ const AddExpense = ({ onAddExpense }) => {
                     onChange={(e) => setDate(e.target.value)}
                 />
             </div>
-            <button>
-                <FontAwesomeIcon icon={faPlus} />
-            </button>
+            <div className="addExpense-buttons-div">
+                <button>Add income</button>
+                <button>Add Expense</button>
+            </div>
         </form >
 
     );

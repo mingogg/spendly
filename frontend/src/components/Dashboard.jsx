@@ -108,7 +108,7 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense }) => { {/* Se r
                                         />
                                     </td>
                                     <td >
-                                        <div className='buttonsDiv'>
+                                        <div className='dashboard-buttons-div'>
                                             <button onClick={handleSaveClick}>
                                                 <FontAwesomeIcon icon={faFloppyDisk} />
                                             </button>
@@ -125,7 +125,7 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense }) => { {/* Se r
                                     <td>{expense.amount ? expense.amount.toLocaleString('es-PY') : 'N/A'}</td>
                                     <td>{formatDate(expense.date)}</td>
                                     <td>
-                                        <div className='buttonsDiv'>
+                                        <div className='dashboard-buttons-div'>
                                             <button onClick={() => handleEditClick(expense)}>
                                                 <FontAwesomeIcon icon={faPenToSquare} />
                                             </button>
