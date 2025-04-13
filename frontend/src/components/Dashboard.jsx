@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan, faFloppyDisk, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 
-const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense }) => { {/* Se reciben las props expenses, onDeleteExpense y onUpdateExpense */}
+const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense }) => {
 
     const [editingId, setEditingId] = useState(null);
     const [editedExpense, setEditedExpense] = useState(null);
@@ -29,13 +29,11 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense }) => { {/* Se r
             return;
         }
 
-        // Llama a la función para actualizar el gasto
         onUpdateExpense({
             ...editedExpense,
             amount: parseFloat(editedExpense.amount), 
         });
 
-        // Limpia los estados de edición
         setEditingId(null);
         setEditedExpense(null);
     };

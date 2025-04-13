@@ -7,7 +7,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const App = () => {
-  {/* useState es un hook que permite modificar una variable dentro del DOM */}
   const [expenses, setExpenses] = useState([]);
   const [editingExpenseId, setEditingExpense] = useState(null);
 
@@ -43,8 +42,8 @@ const App = () => {
   
     try {
       await axios.put(`http://127.0.0.1:5000/expenses/${updatedExpense.id}`, expenseToSend);
-      await fetchExpenses(); // 🔁 Recarga los datos del backend
-      setEditingExpense(null); // ✅ Cierra el formulario de edición
+      await fetchExpenses();
+      setEditingExpense(null);
     } catch (error) {
       console.error("Error updating expense:", error);
       alert("There's been an error updating the expense.");
@@ -56,9 +55,6 @@ const App = () => {
     setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
   };
 
-  {/* async hace que la función sea asíncrona, lo que significa que se ejecutará en segundo plano y no bloqueará la ejecución del resto del código */}
-  {/* por ejemplo: si se está esperando una respuesta del servidor, el resto del código puede seguir ejecutándose mientras se espera la respuesta */}
-  {/* await es una palabra clave que se usa para esperar a que una promesa se resuelva, en este caso, se está esperando a que la petición a la API se complete */}
   const handleDeleteExpense = async (id) => {
     if (window.confirm("¿Delete expense?")) {
       try {
