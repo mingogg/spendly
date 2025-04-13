@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
 import '../styles/styles.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faTrashCan, faFloppyDisk, faXmark } from '@fortawesome/free-solid-svg-icons';
+
 
 const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense }) => { {/* Se reciben las props expenses, onDeleteExpense y onUpdateExpense */}
+
     const [editingId, setEditingId] = useState(null);
     const [editedExpense, setEditedExpense] = useState(null);
 
+    const balance = expenses.reduce((acum, gasto) => {
+        return acum + gasto.amount;
+    }, 0);
+    
     const handleEditClick = (expense) => {
         setEditingId(expense.id);
         setEditedExpense({ ...expense });
@@ -12,19 +20,19 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense }) => { {/* Se r
 
     const handleSaveClick = () => {
         if (!editedExpense.description || !editedExpense.amount || !editedExpense.date) {
-            alert('Por favor, completa todos los campos antes de guardar.');
+            alert('Please fill all the fields before saving.');
             return;
         }
 
         if (editedExpense.amount > 1000000000) {
-            alert("El monto no puede superar los 1.000 millones.");
+            alert("The amount can't surpass the 1.000 million.");
             return;
         }
 
         // Llama a la función para actualizar el gasto
         onUpdateExpense({
             ...editedExpense,
-            amount: parseFloat(editedExpense.amount), // Asegúrate de que sea un número
+            amount: parseFloat(editedExpense.amount), 
         });
 
         // Limpia los estados de edición
@@ -37,25 +45,32 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense }) => { {/* Se r
         setEditedExpense(null);
     };
 
+    const formatDate = (dateStr) => {
+        const [day, month, year] = dateStr.split("-");
+        return `${day}/${month}/${year}`;
+    };
+
     const handleInputChange = (field, value) => {
         setEditedExpense((prev) => ({ ...prev, [field]: value }));
     };
 
     if (expenses.length === 0) {
-        return <p>No hay gastos registrados.</p>;
+        return <p className='no-expenses'>There are no expenses registered.</p>;
     }
 
+    console.log("Gastos actuales:", expenses);
     return (
         <section className="container mt-4">
-            <h2 className="text-center mb-4">GASTOS</h2>
+            <h2 className="text-center mb-4">BALANCE {balance.toLocaleString('es-PY')} ₲</h2>
+
             <table className="table table-striped table-bordered">
                 <thead className="thead-dark">
                     <tr>
                         <th>N°</th>
-                        <th>Descripción</th>
-                        <th>Monto</th>
-                        <th>Fecha</th>
-                        <th>Editar/Borrar</th>
+                        <th>DESCRIPTION</th>
+                        <th>AMOUNT</th>
+                        <th>DATE</th>
+                        <th>MODIFIY</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -92,13 +107,15 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense }) => { {/* Se r
                                             required
                                         />
                                     </td>
-                                    <td>
-                                        <button className="btn btn-success btn-sm me-2" onClick={handleSaveClick}>
-                                            Guardar
-                                        </button>
-                                        <button className="btn btn-secondary btn-sm" onClick={handleCancelClick}>
-                                            Cancelar
-                                        </button>
+                                    <td >
+                                        <div className='buttonsDiv'>
+                                            <button onClick={handleSaveClick}>
+                                                <FontAwesomeIcon icon={faFloppyDisk} />
+                                            </button>
+                                            <button onClick={handleCancelClick}>
+                                                <FontAwesomeIcon icon={faXmark} />
+                                            </button>
+                                        </div>
                                     </td>
                                 </>
                             ) : (
@@ -106,20 +123,16 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense }) => { {/* Se r
                                     <td>{expense.id}</td>
                                     <td>{expense.description}</td>
                                     <td>{expense.amount ? expense.amount.toLocaleString('es-PY') : 'N/A'}</td>
-                                    <td>{expense.date}</td>
+                                    <td>{formatDate(expense.date)}</td>
                                     <td>
-                                        <button
-                                            className="btn btn-warning btn-sm me-2"
-                                            onClick={() => handleEditClick(expense)}
-                                        >
-                                            <i className="fas fa-edit"></i>
-                                        </button>
-                                        <button
-                                            className="btn btn-danger btn-sm"
-                                            onClick={() => onDeleteExpense(expense.id)}
-                                        >
-                                            <i className="fas fa-trash"></i>
-                                        </button>
+                                        <div className='buttonsDiv'>
+                                            <button onClick={() => handleEditClick(expense)}>
+                                                <FontAwesomeIcon icon={faPenToSquare} />
+                                            </button>
+                                            <button onClick={() => onDeleteExpense(expense.id)}>
+                                                <FontAwesomeIcon icon={faTrashCan} />
+                                            </button>
+                                        </div>
                                     </td>
                                 </>
                             )}

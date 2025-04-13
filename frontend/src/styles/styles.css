@@ -1,15 +1,12 @@
 header {
-    background-color: #333aaa;
-    color: white;
-    padding: 10px;
     text-align: center;
+    padding: 20px;
 }
 
-input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-input[type="date"]::-webkit-inner-spin-button,
-input[type="date"]::-webkit-calendar-picker-indicator {
-    display: none;
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
+    margin: 0;
 }
 
 form {
@@ -19,6 +16,39 @@ form {
     justify-content: space-evenly;
 }
 
-table th, td{
+.no-expenses {
     text-align: center;
+    padding-top: 150px;
+}
+
+table th:nth-child(1), table td:nth-child(1) { width: 60px; }
+table th:nth-child(2), table td:nth-child(2) { width: 200px; }
+table th:nth-child(3), table td:nth-child(3) { width: 150px; }
+table th:nth-child(4), table td:nth-child(4) { width: 160px; }
+table th:nth-child(5), table td:nth-child(5) { width: 140px; }
+
+td input, table th, td {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0;
+    margin: 0;
+}
+
+input {
+    background: transparent;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.buttonsDiv {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+svg {
+    width: 16px;
+    height: 16px;
 }

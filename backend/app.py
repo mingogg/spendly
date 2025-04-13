@@ -1,6 +1,8 @@
 import psycopg2
 from flask import Flask, jsonify, request
 from flask_cors import CORS # Indica que tiene permitido ingresar solamente la API indicada
+from datetime import datetime
+
 app = Flask(__name__)
 CORS(app, origins = "http://localhost:5173")
 
@@ -20,7 +22,7 @@ def get_db_connection():
 
 @app.route('/')
 def index():
-    return "¡Bienvenido a la API de SpendTracker!"
+    return "¡Welcome to the API of SPENDLY!"
 
 # @app.route('/test_db') -> Este endpoint responde cuando visitas la ruta http://localhost:5000/test_db en el navegador
 # conn = get_db_connection() -> Se obtiene la conexión a la base de datos
@@ -34,7 +36,7 @@ def test_db():
     try:
         conn = get_db_connection()
         conn.close()
-        return "Conexión a la base de datos establecida correctamente"
+        return "Connction to the DB successful."
     except Exception as e:
         return f"Error: {e}"
 
@@ -88,18 +90,19 @@ def add_expense():
     date = data.get("date")
 
     if not description or not amount or not date:
-        return {"error": "Todos los campos son requeridos"}, 400
+        return {"error": "All fields are mandatory."}, 400
 
     # Se verifica que el monto sea un número entero positivo
     if not isinstance(amount, (int)) or amount <= 0:
-        return {"error": "El monto debe ser un número entero positivo"}, 400
+        return {"error": "The amount must be a positive number above 0."}, 400
 
-    # Se verifica que la fecha sea una cadena de texto en formato YYYY-MM-DD
-    try:
-        from datetime import datetime
-        datetime.strptime(date, '%Y-%m-%d') # Se intenta convertir la fecha a un objeto datetime, si falla, se lanza un error
-    except ValueError:
-        return {"error": "La fecha debe estar en formato YYYY-MM-DD"}, 400
+    if not date:
+        date = datetime.today().strftime('%Y-%m-%d')
+    else:
+        try:
+            datetime.strptime(date, '%Y-%m-%d')  # Validar formato
+        except ValueError:
+            return {"error": "Date must be in format YYYY-MM-DD"}, 400
 
 
     conn = get_db_connection()
@@ -113,7 +116,7 @@ def add_expense():
     conn.commit()
     cursor.close()
     conn.close()
-    return {"message": "Gasto agregado correctamente"}, 201
+    return {"message": "Expense added successfully."}, 201
 
 
 # Esta función se encarga de actualizar un gasto de la base de datos
@@ -132,18 +135,20 @@ def update_expense(id):
     date = data.get("date")
 
     if not description or not amount or not date:
-        return {"error": "Todos los campos son requeridos"}, 400
+        return {"error": "All fields are mandatory."}, 400
 
     # Se verifica que el monto sea un número entero positivo
     if not isinstance(amount, (int)) or amount <= 0:
-        return {"error": "El monto debe ser un número entero positivo"}, 400
+        return {"error": "The amount must be a positive number above 0."}, 400
 
     # Se verifica que la fecha sea una cadena de texto en formato YYYY-MM-DD
-    try:
-        from datetime import datetime
-        datetime.strptime(date, '%Y-%m-%d')
-    except ValueError:
-        return {"error": "La fecha debe estar en formato YYYY-MM-DD"}, 400
+    if not date:
+        date = datetime.today().strftime('%Y-%m-%d')
+    else:
+        try:
+            datetime.strptime(date, '%Y-%m-%d')  # Validar formato
+        except ValueError:
+            return {"error": "Date must be in format YYYY-MM-DD"}, 400
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -158,12 +163,12 @@ def update_expense(id):
         conn.rollback()
         cursor.close()
         conn.close()
-        return {"error": f"No se encontró el gasto con el ID: {id}"}, 404
+        return {"error": f"There's no match for the ID: {id}"}, 404
 
     conn.commit()
     cursor.close()
     conn.close()
-    return {"message": "Gasto actualizado correctamente"}, 200
+    return {"message": "Expense modified successfully."}, 200
 
 # Esta función se encarga de eliminar un gasto de la base de datos
 # @app.route('/expenses/<int:id>', methods = ['DELETE']) -> Este endpoint responde cuando visitas la ruta http://localhost:5000/expenses/1 en el navegador, y se indica que se puede eliminar información a la base de datos vía el método DELETE, pasando en el parámetro <int:id> el ID del gasto que se quiere eliminar
@@ -179,12 +184,12 @@ def delete_expense(id):
         conn.rollback()
         cursor.close()
         conn.close()
-        return {"error": f"No se encontró el gasto con el ID: {id}"}, 404
-
+        return {"error": f"There's no match for the ID: {id}"}, 404
+    
     conn.commit()
     cursor.close()
     conn.close()
-    return {"message": "Gasto eliminado correctamente"}, 200
+    return {"message": "Expense deleted successfully."}, 200
 
 
 # Esta función se encarga de obtener un gasto de la base de datos en base al ID que se le pasa
@@ -202,7 +207,7 @@ def get_expense(id):
     if expense is None:
         cursor.close()
         conn.close()
-        return {"error": f"No se encontró el gasto con el ID: {id}"}, 404
+        return {"error": f"There's no match for the ID: {id}"}, 404
     
     expense_data = {
         "id": expense[0],
@@ -221,13 +226,13 @@ def get_expense(id):
 # Se ejecutan automáticamente cuando ocurre un error 404, 400 o 500. Son generales y globales, independeintes a los manejos de errores que se hayan hecho en las funciones de la aplicación (endpoints)
 @app.errorhandler(404)
 def not_found_error(error):
-    return jsonify({'error': 'Recurso no encontrado'}), 404
+    return jsonify({'error': 'Resource not found'}), 404
 
 @app.errorhandler(400)
 def bad_request_error(error):
-    return jsonify({'error': 'Solicitud inválida'}), 400
+    return jsonify({'error': 'Invalid request'}), 400
 
 @app.errorhandler(500)
 def internal_server_error(error):
-    return jsonify({'error': 'Error interno del servidor'}), 500
+    return jsonify({'error': 'Internal service error.'}), 500
 

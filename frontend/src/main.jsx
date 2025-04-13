@@ -3,7 +3,7 @@ import React from 'react';
 // Es el módulo que permite renderizar elementos React en el DOM (document object model) del navegador
 import ReactDOM from 'react-dom/client';
 // Es el componente principal que contiene la estructura de la aplicación, aquí se está importando TempApp.jsx y renombrandolo como App
-import App from './TempApp.jsx';
+import App from './App.jsx';
 // Importamos nuestros estilos, ya que Vite no soporta CSS Modules por defecto, se importan los estilos globales
 import './styles/styles.css';
 
