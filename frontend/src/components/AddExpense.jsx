@@ -7,9 +7,8 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 
 const AddExpense = ({ onAddExpense }) => {
-    const today = new Date().toISOString().split("T")[0]; // Fecha actual display en input date
+    const today = new Date().toISOString().split("T")[0];
 
-    //  Cálculo para solo permitir fechas realistas
     const now = new Date();
     const oneYearAgo = new Date();
     oneYearAgo.setFullYear(now.getFullYear() - 1);
@@ -35,13 +34,11 @@ const AddExpense = ({ onAddExpense }) => {
             date
         };
 
-        // Para verificar los datos que se envían
         console.log("🔼 Datos enviados al backend:", dataToSend);
 
         try {
             const response = await axios.post('http://127.0.0.1:5000/expenses', dataToSend);
 
-            // Para verificar los datos que se reciben
             console.log("🔽 Datos recibidos del backend:", response.data);
 
             onAddExpense(response.data);
@@ -57,7 +54,6 @@ const AddExpense = ({ onAddExpense }) => {
     
     return (
         <form onSubmit={handleSubmit} className="container mt-4">
-            {/* Div para el input de descripción */}
             <div className="form-group">
                 <label htmlFor="description">DESCRIPTION</label>
                 <input
@@ -69,7 +65,6 @@ const AddExpense = ({ onAddExpense }) => {
                 />
             </div>
             
-            {/* Div para el input de monto */}
             <div className="form-group">
                 <label htmlFor="amount">AMOUNT</label>
                 <input
@@ -81,7 +76,6 @@ const AddExpense = ({ onAddExpense }) => {
                 />
             </div>
 
-            {/* Div para el input de fecha */}
             <div className="form-group">
                 <label htmlFor="date">DATE</label>
                 <input
