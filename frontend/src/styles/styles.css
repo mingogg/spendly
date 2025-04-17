@@ -21,13 +21,34 @@ form {
     padding-top: 150px;
 }
 
-table th:nth-child(1), table td:nth-child(1) { width: 60px; }
-table th:nth-child(2), table td:nth-child(2) { width: 200px; }
-table th:nth-child(3), table td:nth-child(3) { width: 150px; }
-table th:nth-child(4), table td:nth-child(4) { width: 160px; }
-table th:nth-child(5), table td:nth-child(5) { width: 140px; }
+table th:nth-child(1),
+table td:nth-child(1) {
+    width: 60px;
+}
 
-td input, table th, td {
+table th:nth-child(2),
+table td:nth-child(2) {
+    width: 200px;
+}
+
+table th:nth-child(3),
+table td:nth-child(3) {
+    width: 150px;
+}
+
+table th:nth-child(4),
+table td:nth-child(4) {
+    width: 160px;
+}
+
+table th:nth-child(5),
+table td:nth-child(5) {
+    width: 140px;
+}
+
+td input,
+table th,
+td {
     width: 100%;
     box-sizing: border-box;
     text-align: center;
@@ -37,13 +58,18 @@ td input, table th, td {
     margin: 0;
 }
 
-input {
+.on-hover-th:hover {
+    cursor: pointer;
+}
+
+input,
+option {
     background: transparent;
     border: 1px solid black;
     border-radius: 5px;
 }
 
-.buttonsDiv {
+.dashboard-buttons-div {
     display: flex;
     justify-content: space-evenly;
 }
@@ -51,4 +77,28 @@ input {
 svg {
     width: 16px;
     height: 16px;
+}
+
+.income-class {
+    color: green;
+}
+
+.expense-class {
+    color: red;
+}
+
+.total-balance {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+table {
+    border: 2px solid black;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
 }

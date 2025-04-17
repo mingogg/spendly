@@ -42,7 +42,8 @@ def get_expenses():
             'id': row[0],
             'description': row[1],
             'amount': row[2],
-            'date': row[3].strftime('%d-%m-%Y')
+            'date': row[3].strftime('%d-%m-%Y'),
+            'entrytype': row[4]
         })
 
     cursor.close()
@@ -55,6 +56,8 @@ def add_expense():
     description = data.get("description")
     amount = data.get("amount")
     date = data.get("date")
+    entryType = data.get("entrytype")
+
 
     if not description or not amount or not date:
         return {"error": "All fields are mandatory."}, 400
@@ -75,8 +78,8 @@ def add_expense():
     cursor = conn.cursor()
 
     cursor.execute(
-        "INSERT INTO expenses (description, amount, date) VALUES (%s, %s, %s)",
-        (description, amount, date)
+        "INSERT INTO expenses (description, amount, date, entryType) VALUES (%s, %s, %s, %s)",
+        (description, amount, date, entryType)
     )
 
     conn.commit()
@@ -159,12 +162,30 @@ def get_expense(id):
         "id": expense[0],
         "description": expense[1],
         "amount": expense[2],
-        "date": expense[3]
+        "date": expense[3],
+        "entrytype": expense[4]
     }
 
     cursor.close()
     conn.close()
     return {'expense':expense_data}, 200
+
+@app.route('/categories', methods = ['GET'])
+def get_categories():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT category FROM categories')
+    rows = cursor.fetchall()
+
+    categories = []
+    
+    for row in rows:
+        categories.append(row[0])
+
+    cursor.close()
+    conn.close()
+    return jsonify(categories)
 
 
 @app.errorhandler(404)
@@ -177,5 +198,4 @@ def bad_request_error(error):
 
 @app.errorhandler(500)
 def internal_server_error(error):
-    return jsonify({'error': 'Internal service error.'}), 500
-
+    return jsonify({'error': 'Internal service error'}), 500

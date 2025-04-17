@@ -1,37 +1,74 @@
-import React, { useState } from 'react';
-import '../styles/styles.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faTrashCan, faFloppyDisk, faXmark } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare, faTrashCan, faFloppyDisk, faXmark } from "@fortawesome/free-solid-svg-icons";
+import "../styles/styles.css";
+import BalanceSummary from "./BalanceSummary.jsx";
+import { getDateLimits, formatDateView, unformatDate } from "../utils/dateUtils.js";
+import { calculateBalance } from "../utils/calculateUtils.js";
 
 
-const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense }) => {
+const { minDate, maxDate } = getDateLimits();
 
+const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense, categories }) => {
+    const { balanceIncome, balanceExpense, balanceTotal } = calculateBalance(expenses);
     const [editingId, setEditingId] = useState(null);
     const [editedExpense, setEditedExpense] = useState(null);
+    const [sortConfig, setSortConfig] = useState({ key: "date", direction: "asc" });
 
-    const balance = expenses.reduce((acum, gasto) => {
-        return acum + gasto.amount;
-    }, 0);
-    
+    const dateRef = useRef();
+    const descRef = useRef();
+    const amountRef = useRef();
+
+    const sortedExpenses = [...expenses].sort((a, b) => {
+        const aValue = a[sortConfig.key];
+        const bValue = b[sortConfig.key];
+
+        if (sortConfig.key === "date") {
+            return sortConfig.direction === "desc"
+                ? new Date(unformatDate(aValue)) - new Date(unformatDate(bValue))
+                : new Date(unformatDate(bValue)) - new Date(unformatDate(aValue));
+        }
+
+        return sortConfig.direction === "asc"
+            ? aValue > bValue
+                ? 1
+                : -1
+            : aValue < bValue
+                ? 1
+                : -1;
+    });
+
+    const handleSort = (key) => {
+        setSortConfig((prev) => ({
+            key,
+            direction:
+                prev.key === key && prev.direction === "desc" ? "asc" : "desc",
+        }));
+    };
+
     const handleEditClick = (expense) => {
         setEditingId(expense.id);
-        setEditedExpense({ ...expense });
+
+        setEditedExpense({ ...expense, date: unformatDate(expense.date) });
     };
 
     const handleSaveClick = () => {
-        if (!editedExpense.description || !editedExpense.amount || !editedExpense.date) {
-            alert('Please fill all the fields before saving.');
-            return;
-        }
+        if (!dateRef.current.reportValidity()) return;
+        if (!descRef.current.reportValidity()) return;
+        if (!amountRef.current.reportValidity()) return;
 
-        if (editedExpense.amount > 1000000000) {
-            alert("The amount can't surpass the 1.000 million.");
+        const dateValue = new Date(editedExpense.date);
+        const min = new Date(minDate);
+        const max = new Date(maxDate);
+
+        if (dateValue < min || dateValue > max) {
+            alert(`The date must be between ${minDate} and ${maxDate}`);
             return;
         }
 
         onUpdateExpense({
             ...editedExpense,
-            amount: parseFloat(editedExpense.amount), 
+            amount: parseFloat(editedExpense.amount),
         });
 
         setEditingId(null);
@@ -43,102 +80,116 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense }) => {
         setEditedExpense(null);
     };
 
-    const formatDate = (dateStr) => {
-        const [day, month, year] = dateStr.split("-");
-        return `${day}/${month}/${year}`;
-    };
-
     const handleInputChange = (field, value) => {
         setEditedExpense((prev) => ({ ...prev, [field]: value }));
     };
 
-    if (expenses.length === 0) {
-        return <p className='no-expenses'>There are no expenses registered.</p>;
-    }
-
-    console.log("Gastos actuales:", expenses);
     return (
-        <section className="container mt-4">
-            <h2 className="text-center mb-4">BALANCE {balance.toLocaleString('es-PY')} ₲</h2>
+        <>
+            <BalanceSummary
+                balanceIncome={balanceIncome}
+                balanceExpense={balanceExpense}
+                balanceTotal={balanceTotal}
+            />
 
-            <table className="table table-striped table-bordered">
-                <thead className="thead-dark">
-                    <tr>
-                        <th>N°</th>
-                        <th>DESCRIPTION</th>
-                        <th>AMOUNT</th>
-                        <th>DATE</th>
-                        <th>MODIFIY</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {expenses.map((expense) => (
-                        <tr key={expense.id}>
-                            {editingId === expense.id ? (
-                                <>
-                                    <td>{expense.id}</td>
-                                    <td>
-                                        <input
-                                            type="text"
-                                            value={editedExpense.description}
-                                            onChange={(e) => handleInputChange('description', e.target.value)}
-                                            required
-                                        />
-                                    </td>
-                                    <td>
-                                        <input
-                                            type="number"
-                                            value={editedExpense.amount}
-                                            onChange={(e) => handleInputChange('amount', e.target.value)}
-                                            required
-                                        />
-                                    </td>
-                                    <td>
-                                        <input
-                                            type="date"
-                                            value={
-                                                editedExpense.date && !isNaN(new Date(editedExpense.date))
-                                                ? new Date(editedExpense.date).toISOString().split("T")[0]
-                                                : ""
-                                            }
-                                            onChange={(e) => handleInputChange("date", e.target.value)}
-                                            required
-                                        />
-                                    </td>
-                                    <td >
-                                        <div className='dashboard-buttons-div'>
-                                            <button onClick={handleSaveClick}>
-                                                <FontAwesomeIcon icon={faFloppyDisk} />
-                                            </button>
-                                            <button onClick={handleCancelClick}>
-                                                <FontAwesomeIcon icon={faXmark} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </>
-                            ) : (
-                                <>
-                                    <td>{expense.id}</td>
-                                    <td>{expense.description}</td>
-                                    <td>{expense.amount ? expense.amount.toLocaleString('es-PY') : 'N/A'}</td>
-                                    <td>{formatDate(expense.date)}</td>
-                                    <td>
-                                        <div className='dashboard-buttons-div'>
-                                            <button onClick={() => handleEditClick(expense)}>
-                                                <FontAwesomeIcon icon={faPenToSquare} />
-                                            </button>
-                                            <button onClick={() => onDeleteExpense(expense.id)}>
-                                                <FontAwesomeIcon icon={faTrashCan} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </>
-                            )}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </section>
+            {expenses.length === 0 ? (
+                <p className="no-expenses">There are no expenses registered.</p>
+            ) : (
+                <section className="container mt-4">
+                    <table>
+                        <thead className="table-header">
+                            <tr>
+                                <th onClick={() => handleSort("date")} className="on-hover-th">
+                                    DATE {sortConfig.key === "date" && (sortConfig.direction === "asc" ? "▲" : "▼")}
+                                </th>
+                                <th onClick={() => handleSort("description")} className="on-hover-th">
+                                    DESCRIPTION {sortConfig.key === "description" && (sortConfig.direction === "asc" ? "▲" : "▼")}
+                                </th>
+                                <th onClick={() => handleSort("amount")} className="on-hover-th">
+                                    AMOUNT {sortConfig.key === "amount" && (sortConfig.direction === "asc" ? "▲" : "▼")}
+                                </th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {sortedExpenses.map((expense) => (
+                                <tr key={expense.id}>
+                                    {editingId === expense.id ? (
+                                        <>
+                                            <td>
+                                                <input
+                                                    type="date"
+                                                    ref={dateRef}
+                                                    value={editedExpense.date}
+                                                    min={minDate}
+                                                    max={maxDate}
+                                                    onChange={(e) => handleInputChange("date", e.target.value)}
+                                                    required
+                                                />
+                                            </td>
+                                            <td>
+                                                <select ref={descRef}
+                                                    value={editedExpense.description}
+                                                    onChange={(e) => handleInputChange("description", e.target.value)}
+                                                    required>
+                                                    {categories.map((cat, index) => (
+                                                        <option key={index} value={cat}>
+                                                            {cat}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input
+                                                    type="number"
+                                                    ref={amountRef}
+                                                    max={1000000000}
+                                                    value={editedExpense.amount.toLocaleString("es-PY")}
+                                                    onChange={(e) => handleInputChange("amount", e.target.value)}
+                                                    required
+                                                />
+                                            </td>
+                                            <td>
+                                                <div className="dashboard-buttons-div">
+                                                    <button onClick={handleSaveClick}>
+                                                        <FontAwesomeIcon icon={faFloppyDisk} />
+                                                    </button>
+                                                    <button onClick={handleCancelClick}>
+                                                        <FontAwesomeIcon icon={faXmark} />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <td>
+                                                {formatDateView(expense.date)}
+                                            </td>
+                                            <td>{expense.description}</td>
+                                            <td
+                                                className={expense.entrytype === "income" ? "income-class" : "expense-class"}>
+                                                {expense.amount.toLocaleString("es-PY")} ₲
+                                            </td>
+                                            <td>
+                                                <div className="dashboard-buttons-div">
+                                                    <button onClick={() => handleEditClick(expense)}>
+                                                        <FontAwesomeIcon icon={faPenToSquare} />
+                                                    </button>
+                                                    <button onClick={() => onDeleteExpense(expense.id)}>
+                                                        <FontAwesomeIcon icon={faTrashCan} />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </>
+                                    )}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </section>
+            )}
+        </>
     );
 };
 
