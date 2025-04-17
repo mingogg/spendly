@@ -103,7 +103,7 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense, categories }) =
                                     DATE {sortConfig.key === "date" && (sortConfig.direction === "asc" ? "▲" : "▼")}
                                 </th>
                                 <th onClick={() => handleSort("description")} className="on-hover-th">
-                                    DESCRIPTION {sortConfig.key === "description" && (sortConfig.direction === "asc" ? "▲" : "▼")}
+                                    CATEGORY {sortConfig.key === "description" && (sortConfig.direction === "asc" ? "▲" : "▼")}
                                 </th>
                                 <th onClick={() => handleSort("amount")} className="on-hover-th">
                                     AMOUNT {sortConfig.key === "amount" && (sortConfig.direction === "asc" ? "▲" : "▼")}
