@@ -2,15 +2,11 @@ import React, { useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan, faFloppyDisk, faXmark } from "@fortawesome/free-solid-svg-icons";
 import "../styles/styles.css";
-import BalanceSummary from "./BalanceSummary.jsx";
 import { getDateLimits, formatDateView, unformatDate } from "../utils/dateUtils.js";
-import { calculateBalance } from "../utils/calculateUtils.js";
-
 
 const { minDate, maxDate } = getDateLimits();
 
 const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense, categories }) => {
-    const { balanceIncome, balanceExpense, balanceTotal } = calculateBalance(expenses);
     const [editingId, setEditingId] = useState(null);
     const [editedExpense, setEditedExpense] = useState(null);
     const [sortConfig, setSortConfig] = useState({ key: "date", direction: "asc" });
@@ -86,12 +82,6 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense, categories }) =
 
     return (
         <>
-            <BalanceSummary
-                balanceIncome={balanceIncome}
-                balanceExpense={balanceExpense}
-                balanceTotal={balanceTotal}
-            />
-
             {expenses.length === 0 ? (
                 <p className="no-expenses">There are no expenses registered.</p>
             ) : (

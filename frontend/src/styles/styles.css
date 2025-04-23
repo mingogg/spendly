@@ -1,7 +1,23 @@
-header {
-    text-align: center;
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background-color: #0f1c3f;
+    color: white;
     padding: 20px;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
 }
+
+.main-content {
+    margin-left: 240px;
+    padding: 30px;
+    background-color: #f5f7fa;
+    min-height: 100vh;
+}
+
 
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
@@ -101,4 +117,64 @@ section {
     justify-content: center;
     padding: 0;
     margin: 0;
+}
+
+/* BALANCE SUMMARY STYLES */
+.balance-summary {
+    display: flex;
+    gap: 20px;
+    justify-content: space-evenly;
+    margin-bottom: 20px;
+}
+
+.summary-card {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 20px;
+    border-radius: 12px;
+    color: white;
+    width: 200px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.summary-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.summary-info span {
+    font-size: 16px;
+}
+
+.icon-wrapper {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.icon-custom {
+    width: 32px;
+    height: 32px;
+}
+
+.summary-label {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 4px;
+}
+
+
+.income-card {
+    background: #7b61ff;
+}
+
+.expense-card {
+    background: #4a90e2;
+}
+
+.balance-card {
+    background: #3ecf8e;
 }

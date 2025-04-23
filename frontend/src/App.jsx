@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/Dashboard";
 import AddExpense from "./components/AddExpense";
+import BalanceSummary from "./components/BalanceSummary";
+import { calculateBalance } from './utils/calculateUtils';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
     const [expenses, setExpenses] = useState([]);
     const [editingExpenseId, setEditingExpenseId] = useState(null);
     const [categories, setCategories] = useState(null)
+
+    const { balanceIncome, balanceExpense, balanceTotal } = calculateBalance(expenses);
+
 
     const fetchExpenses = async () => {
         try {
@@ -85,8 +90,14 @@ const App = () => {
 
     return (
         <div>
-            <Header />
-            <main>
+            <Sidebar />
+            <main className="main-content">
+                <h2>Expense tracking</h2>
+                <BalanceSummary
+                    balanceIncome={balanceIncome}
+                    balanceExpense={balanceExpense}
+                    balanceTotal={balanceTotal}
+                />
                 <AddExpense
                     onAddExpense={fetchExpenses}
                     categories={categories} />
