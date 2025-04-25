@@ -45,48 +45,54 @@ const AddExpense = ({ onAddExpense, categories }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="container mt-4">
-            <div className="form-group">
-                <label htmlFor="description">CATEGORY</label>
-                <select value={description} onChange={(e) => setDescription(e.target.value)} required>
-                    <option value="">Select...</option>
-                    {categories && categories.map((cat, index) => (
-                        <option key={index} value={cat}>{cat}</option>
-                    ))}
-                </select>
+        <form onSubmit={handleSubmit} className="container">
+
+            <div className="form-inputs">
+                <div className="form-group">
+                    <label htmlFor="description">CATEGORY</label>
+                    <select value={description} onChange={(e) => setDescription(e.target.value)} required>
+                        <option value="">Select...</option>
+                        {categories && categories.map((cat, index) => (
+                            <option key={index} value={cat}>{cat}</option>
+                        ))}
+                    </select>
+                </div>
+
+
+                <div className="form-group">
+                    <label htmlFor="amount">AMOUNT</label>
+                    <input
+                        type="number"
+                        id="amount"
+                        name="amount"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="date">DATE</label>
+                    <input
+                        type="date"
+                        id="date"
+                        name="date"
+                        min={minDate}
+                        max={maxDate}
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                    />
+                </div>
             </div>
 
-            <div className="form-group">
-                <label htmlFor="amount">AMOUNT</label>
-                <input
-                    type="number"
-                    id="amount"
-                    name="amount"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                />
-            </div>
-
-            <div className="form-group">
-                <label htmlFor="date">DATE</label>
-                <input
-                    type="date"
-                    id="date"
-                    name="date"
-                    min={minDate}
-                    max={maxDate}
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                />
-            </div>
-
-            <div className="addExpense-buttons-div">
-                <button name="action" value="income" className="boton">
-                    Add income
-                </button>
-                <button name="action" value="expense">
-                    Add Expense
-                </button>
+            <div className="form-buttons">
+                <div className="addExpense-buttons-div">
+                    <button name="action" value="income" className="boton">
+                        Add income
+                    </button>
+                    <button name="action" value="expense">
+                        Add Expense
+                    </button>
+                </div>
             </div>
         </form>
     );

@@ -2,6 +2,14 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
+.main-content {
+    margin-left: 240px;
+    padding: 30px;
+    background-color: #f5f7fa;
+    min-height: 100vh;
+}
+
+/* COMPONENTE SIDEBAR */
 .sidebar {
     width: 240px;
     height: 100vh;
@@ -15,15 +23,110 @@ body {
     z-index: 1000;
 }
 
+/* TITULO DE LA PÁGINA */
 h2 {
     padding-bottom: 25px;
 }
 
-.main-content {
-    margin-left: 240px;
-    padding: 30px;
-    background-color: #f5f7fa;
-    min-height: 100vh;
+/* COMPONENTE BALANCE E INPUTS*/
+.balance-form {
+    display: flex;
+}
+
+.balance-summary {
+    display: flex;
+    justify-content: flex-start;
+    font-family: 'Inter', sans-serif;
+}
+
+.summary-card {
+    margin-right: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+    border-radius: 12px;
+    color: white;
+    width: 200px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.summary-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.summary-info span {
+    font-size: 16px;
+}
+
+.icon-wrapper {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 10px;
+}
+
+.icon-custom {
+    width: 32px;
+    height: 32px;
+}
+
+.summary-label {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 4px;
+}
+
+.income-card {
+    background: #7b61ff;
+}
+
+.expense-card {
+    background: #e44282;
+}
+
+/* FORMULARIO */
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+}
+
+.form-inputs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 16px;
+    /* separa las columnas */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 30%;
+    /* o 100% si usás column layout */
+}
+
+.addExpense-buttons-div {
+    display: flex;
+    justify-content: space-between;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+input,
+select {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-family: inherit;
 }
 
 
@@ -33,11 +136,12 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0;
 }
 
-form {
+/* COMPONENTE DASHBOARD */
+section {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
 }
 
 .no-expenses {
@@ -109,74 +213,4 @@ svg {
 
 .expense-class {
     color: red;
-}
-
-.total-balance {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-table {
-    border: 2px solid black;
-}
-
-section {
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    margin: 0;
-}
-
-.balance-summary {
-    display: flex;
-    justify-content: flex-start;
-    font-family: 'Inter', sans-serif;
-}
-
-.summary-card {
-    margin-right: 20px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 20px;
-    border-radius: 12px;
-    color: white;
-    width: 200px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.summary-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
-.summary-info span {
-    font-size: 16px;
-}
-
-.icon-wrapper {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 12px;
-    border-radius: 10px;
-}
-
-.icon-custom {
-    width: 32px;
-    height: 32px;
-}
-
-.summary-label {
-    font-size: 14px;
-    opacity: 0.9;
-    margin-bottom: 4px;
-}
-
-
-.income-card {
-    background: #7b61ff;
-}
-
-.expense-card {
-    background: #e24a6b;
 }

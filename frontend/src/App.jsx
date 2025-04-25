@@ -93,15 +93,16 @@ const App = () => {
             <Sidebar />
             <main className="main-content">
                 <h2>Expense tracking</h2>
+                <div className="balance-form">
+                    <BalanceSummary
+                        balanceIncome={balanceIncome}
+                        balanceExpense={balanceExpense}
+                        balanceTotal={balanceTotal} />
 
-                <BalanceSummary
-                    balanceIncome={balanceIncome}
-                    balanceExpense={balanceExpense}
-                    balanceTotal={balanceTotal}
-                />
-                <AddExpense
-                    onAddExpense={fetchExpenses}
-                    categories={categories} />
+                    <AddExpense
+                        onAddExpense={fetchExpenses}
+                        categories={categories} />
+                </div>
                 <Dashboard
                     expenses={expenses}
                     categories={categories}

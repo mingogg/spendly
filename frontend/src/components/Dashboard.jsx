@@ -135,7 +135,7 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense, categories }) =
                                                     type="number"
                                                     ref={amountRef}
                                                     max={1000000000}
-                                                    value={editedExpense.amount.toLocaleString("es-PY")}
+                                                    value={editedExpense.amount}
                                                     onChange={(e) => handleInputChange("amount", e.target.value)}
                                                     required
                                                 />
