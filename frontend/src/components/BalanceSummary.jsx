@@ -20,13 +20,13 @@ const BalanceSummary = ({ balanceIncome, balanceExpense, balanceTotal }) => {
                 <div className='icon-wrapper'><BanknoteArrowDown className='icon-custom' /></div>
 
                 <div className="summary-info">
-                    <span className="summary-label">Expense</span>
-                    <span className="summary-amount">{balanceExpense?.toLocaleString('es-PY')} ₲</span>
+                    <span className="summary-label">Expenses</span>
+                    <span className="summary-amount">-{balanceExpense?.toLocaleString('es-PY')} ₲</span>
                 </div>
 
             </div>
 
-            <div className="summary-card balance-card">
+            <div className="summary-card balance-card" style={{ backgroundColor: balanceTotal > 0 ? '#65bfb9' : '#e24b6a' }}>
                 <div className='icon-wrapper'><Scale className='icon-custom' /></div>
 
                 <div className="summary-info">

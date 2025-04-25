@@ -93,6 +93,7 @@ const App = () => {
             <Sidebar />
             <main className="main-content">
                 <h2>Expense tracking</h2>
+
                 <BalanceSummary
                     balanceIncome={balanceIncome}
                     balanceExpense={balanceExpense}
