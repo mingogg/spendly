@@ -85,7 +85,7 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense, categories }) =
             {expenses.length === 0 ? (
                 <p className="no-expenses">There are no expenses registered.</p>
             ) : (
-                <section className="container mt-4">
+                <section className="dashboard-container">
                     <table>
                         <thead className="table-header">
                             <tr>

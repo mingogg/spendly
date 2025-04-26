@@ -45,7 +45,7 @@ const AddExpense = ({ onAddExpense, categories }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="container">
+        <form onSubmit={handleSubmit} className="add-expense-form">
 
             <div className="form-inputs">
                 <div className="form-group">

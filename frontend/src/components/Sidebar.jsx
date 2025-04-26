@@ -3,7 +3,7 @@ import '../styles/styles.css';
 
 const Sidebar = () => {
     return (
-        <div className='app-container'>
+        <div className='sidebar-container'>
             <aside className='sidebar'>Spendly</aside>
         </div>
     );

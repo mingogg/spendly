@@ -5,7 +5,6 @@ import Dashboard from "./components/Dashboard";
 import AddExpense from "./components/AddExpense";
 import BalanceSummary from "./components/BalanceSummary";
 import { calculateBalance } from './utils/calculateUtils';
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
     const [expenses, setExpenses] = useState([]);

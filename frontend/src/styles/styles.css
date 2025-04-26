@@ -1,17 +1,39 @@
+html,
+body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f5f7fa;
+    overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Inter', sans-serif;
 }
 
 .main-content {
-    margin-left: 240px;
-    padding: 30px;
-    background-color: #f5f7fa;
+    margin: 0 auto;
+    padding: 20px;
+    margin-left: 13vw;
+    /* si quieres mantener sidebar fijo */
+    width: calc(100% - 13vw);
+    max-width: 1400px;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 /* COMPONENTE SIDEBAR */
 .sidebar {
-    width: 240px;
+    width: 13vw;
     height: 100vh;
     background-color: #0f1c3f;
     color: white;
@@ -25,7 +47,7 @@ body {
 
 /* TITULO DE LA PÁGINA */
 h2 {
-    padding-bottom: 25px;
+    padding: 25px;
 }
 
 /* COMPONENTE BALANCE E INPUTS*/
@@ -34,9 +56,9 @@ h2 {
 }
 
 .balance-summary {
+    flex: 1;
     display: flex;
-    justify-content: flex-start;
-    font-family: 'Inter', sans-serif;
+    justify-content: space-around;
 }
 
 .summary-card {
@@ -87,27 +109,22 @@ h2 {
 }
 
 /* FORMULARIO */
-.container {
+.add-expense-form {
+    flex: 0.1;
     display: flex;
     flex-direction: column;
-    padding: 0;
-    margin: 0;
+    gap: 10px;
 }
 
 .form-inputs {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     gap: 16px;
-    /* separa las columnas */
 }
 
 .form-group {
+    flex: 1 1 200px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    width: 30%;
-    /* o 100% si usás column layout */
 }
 
 .addExpense-buttons-div {
@@ -138,10 +155,12 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* COMPONENTE DASHBOARD */
 section {
-    display: flex;
-    justify-content: center;
-    padding: 0;
+    width: 38vw;
+}
+
+section .container {
     margin: 0;
+    padding: 0;
 }
 
 .no-expenses {
