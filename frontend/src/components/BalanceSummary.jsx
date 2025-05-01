@@ -5,33 +5,33 @@ import '../styles/styles.css';
 const BalanceSummary = ({ balanceIncome, balanceExpense, balanceTotal }) => {
 
     return (
-        <div className="balance-summary">
-            <div className="summary-card income-card">
+        <div className="cards-container">
+            <div className="cards income-card">
                 <div className='icon-wrapper'><BanknoteArrowUp className='icon-custom' /></div>
 
-                <div className="summary-info">
-                    <span className="summary-label">Income</span>
-                    <span className="summary-amount">{balanceIncome?.toLocaleString('es-PY')} ₲</span>
+                <div className="cards-info">
+                    <span className="cards-info-label">Income</span>
+                    <span className="cards-info-amount">{balanceIncome.toLocaleString('es-PY')}&nbsp;₲</span>
                 </div>
             </div>
 
 
-            <div className="summary-card expense-card">
+            <div className="cards expense-card">
                 <div className='icon-wrapper'><BanknoteArrowDown className='icon-custom' /></div>
 
-                <div className="summary-info">
-                    <span className="summary-label">Expenses</span>
-                    <span className="summary-amount">-{balanceExpense?.toLocaleString('es-PY')} ₲</span>
+                <div className="cards-info">
+                    <span className="cards-info-label">Expenses</span>
+                    <span className="cards-info-amount">-{balanceExpense.toLocaleString('es-PY')}&nbsp;₲</span>
                 </div>
 
             </div>
 
-            <div className="summary-card balance-card" style={{ backgroundColor: balanceTotal > 0 ? '#65bfb9' : '#e24b6a' }}>
+            <div className="cards balance-card" style={{ backgroundColor: balanceTotal > 0 ? '#72b8ee' : '#3f87c3' }}>
                 <div className='icon-wrapper'><Scale className='icon-custom' /></div>
 
-                <div className="summary-info">
-                    <span className="summary-label">Balance</span>
-                    <span className="summary-amount">{balanceTotal?.toLocaleString('es-PY')} ₲</span>
+                <div className="cards-info">
+                    <span className="cards-info-label">Balance</span>
+                    <span className="cards-info-amount">{balanceTotal.toLocaleString('es-PY')}&nbsp;₲</span>
 
                 </div>
             </div>

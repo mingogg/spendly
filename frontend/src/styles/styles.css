@@ -1,12 +1,18 @@
 :root {
-    --income-color: #7b61ff;
+    --income-color: #65bfb9;
     --expense-color: #e44282;
     --border-light: #ccc;
     --border-dark: #000000;
-    --income-text-color: #2ecc71;
-    --expense-text-color: #e74c3c;
+    --income-text-color: #27ae60;
+    /* verde suave */
+    --expense-text-color: #c0392b;
+    /* rojo suave */
+    --income-bg-light: #eafaf1;
+    --expense-bg-light: #fdecea;
     --sidebar-background-color: #0f1c3f;
-    --body-html-color: #f5f7fa;
+    --body-html-color: #f4f6f8;
+    --button-form-color: #7b61ff;
+    --button-form-color-hover: #5837fe;
 }
 
 html,
@@ -57,7 +63,8 @@ body {
 
 /* TITULO DE LA PÁGINA */
 h2 {
-    padding: 25px;
+    padding: 20px 0px;
+    margin: 0;
 }
 
 /* COMPONENTE BALANCE E INPUTS*/
@@ -66,31 +73,33 @@ h2 {
     justify-content: space-around;
 }
 
-.balance-summary {
+.cards-container {
     display: flex;
     justify-content: flex-start;
 }
 
-.summary-card {
-    margin-right: 20px;
+.cards {
+    margin-right: 10px;
     display: flex;
     justify-content: space-around;
     align-items: center;
     padding: 20px;
     border-radius: 12px;
     color: white;
-    width: 200px;
+    min-width: 200px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    gap: 5px;
 }
 
-.summary-info {
+.cards-info {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    gap: 13px;
 }
 
-.summary-info span {
-    font-size: 16px;
+.cards-info-label {
+    font-size: 17px;
+    white-space: nowrap;
 }
 
 .icon-wrapper {
@@ -104,12 +113,6 @@ h2 {
     height: 32px;
 }
 
-.summary-label {
-    font-size: 14px;
-    opacity: 0.9;
-    margin-bottom: 4px;
-}
-
 .income-card {
     background: var(--income-color);
 }
@@ -119,125 +122,144 @@ h2 {
 }
 
 /* FORMULARIO */
-.add-expense-form {
+.form-container {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.form-inputs {
+/* grupo de inputs */
+.form-inputs-container {
     display: flex;
-    gap: 16px;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.form-group {
-    flex: 1 1 200px;
-    display: flex;
-    flex-direction: column;
+/* inputs */
+.form-input {
+    all: unset;
+    /* limpia todos los estilos por defecto del navegador */
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+    background-color: white;
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.2;
+    color: black;
+
+    box-sizing: border-box;
+    transition: border 0.2s ease;
 }
 
-.addExpense-buttons-div {
+.form-input:focus {
+    border-color: var(--button-form-color);
+    box-shadow: 0 0 0 2px rgba(123, 97, 255, 0.2);
+    outline: none;
+}
+
+/* date input emoji */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.4);
+    transition: 0.5s ease-in-out;
+    cursor: pointer;
+    margin-right: 6px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    filter: none;
+}
+
+/* grupo de buttons */
+.form-buttons-container {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
     height: 35px;
 }
 
-label {
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 4px;
-}
-
-input,
-select {
+.form-button {
+    background-color: var(--button-form-color);
     padding: 8px;
-    border-radius: 6px;
-    border: 1px solid var(--border-light);
-    font-family: inherit;
-}
-
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-/* COMPONENTE DASHBOARD */
-
-section.dashboard-container {
-    width: 38vw;
-    margin: 0 auto;
-}
-
-.no-expenses {
-    text-align: center;
-    padding-top: 150px;
-}
-
-table th:nth-child(1),
-table td:nth-child(1) {
-    width: 60px;
-}
-
-table th:nth-child(2),
-table td:nth-child(2) {
-    width: 200px;
-}
-
-table th:nth-child(3),
-table td:nth-child(3) {
-    width: 150px;
-}
-
-table th:nth-child(4),
-table td:nth-child(4) {
-    width: 160px;
-}
-
-table th:nth-child(5),
-table td:nth-child(5) {
-    width: 140px;
-}
-
-td input,
-table th,
-td {
-    width: 100%;
-    box-sizing: border-box;
-    text-align: center;
-    font-family: inherit;
-    font-size: inherit;
-    padding: 0;
-    margin: 0;
-}
-
-.on-hover-th:hover {
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
     cursor: pointer;
 }
 
-input,
-option {
-    background: transparent;
-    border: 1px solid var(--border-dark);
-    border-radius: 5px;
+.form-button:hover {
+    transition: 0.2s ease-in-out;
+    background-color: var(--button-form-color-hover);
 }
 
-.dashboard-buttons-div {
+/* COMPONENTE DASHBOARD */
+.dashboard-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow-x: auto;
+}
+
+/* tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-light);
+}
+
+th {
+    background-color: #f1f3f7;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+    color: #333;
+}
+
+tr .dashboard-filter-hover:hover {
+    cursor: pointer;
+}
+
+tbody tr:hover {
+    background-color: #f9f9f9;
+    transition: background-color 0.2s ease;
+}
+
+
+/* texto a color para income y expense*/
+.amount-chip {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 90px;
+    border-radius: 20px;
+    text-align: center;
+    width: fit-content;
 }
 
-svg {
-    width: 16px;
-    height: 16px;
+.amount-chip.income {
+    color: #2ecc71;
+    background-color: #e9f9f0;
+    border: 1px solid #b0eac8;
 }
 
-.income-class {
-    color: var(--income-text-color);
-}
-
-.expense-class {
-    color: var(--expense-text-color);
+.amount-chip.expense {
+    color: #e74c3c;
+    background-color: #fdebea;
+    border: 1px solid #f2c2bd;
 }

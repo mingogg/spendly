@@ -89,13 +89,13 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense, categories }) =
                     <table>
                         <thead className="table-header">
                             <tr>
-                                <th onClick={() => handleSort("date")} className="on-hover-th">
+                                <th onClick={() => handleSort("date")} className="dashboard-filter-hover">
                                     DATE {sortConfig.key === "date" && (sortConfig.direction === "asc" ? "▲" : "▼")}
                                 </th>
-                                <th onClick={() => handleSort("description")} className="on-hover-th">
+                                <th onClick={() => handleSort("description")} className="dashboard-filter-hover">
                                     CATEGORY {sortConfig.key === "description" && (sortConfig.direction === "asc" ? "▲" : "▼")}
                                 </th>
-                                <th onClick={() => handleSort("amount")} className="on-hover-th">
+                                <th onClick={() => handleSort("amount")} className="dashboard-filter-hover">
                                     AMOUNT {sortConfig.key === "amount" && (sortConfig.direction === "asc" ? "▲" : "▼")}
                                 </th>
                                 <th>ACTIONS</th>
@@ -157,9 +157,10 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense, categories }) =
                                                 {formatDateView(expense.date)}
                                             </td>
                                             <td>{expense.description}</td>
-                                            <td
-                                                className={expense.entrytype === "income" ? "income-class" : "expense-class"}>
-                                                {expense.amount.toLocaleString("es-PY")} ₲
+                                            <td>
+                                                <div className={expense.entrytype === "income" ? "amount-chip income" : "amount-chip expense"}>
+                                                    {expense.amount.toLocaleString("es-PY")} ₲
+                                                </div>
                                             </td>
                                             <td>
                                                 <div className="dashboard-buttons-div">
