@@ -1,3 +1,3 @@
-Práctica para crear conexiones backend con la DB. Se retoma el proyecto para finalizarlo 'cuz mamma didn't raise a quitter.
+Práctica para crear conexiones backend con la DB.
 
-Note: se quitaron todos los comentarios de notas de estudio del código para su publicación.
+Se retoma el proyecto para finalizarlo.
