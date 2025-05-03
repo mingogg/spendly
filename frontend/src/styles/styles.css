@@ -4,9 +4,7 @@
     --border-light: #ccc;
     --border-dark: #000000;
     --income-text-color: #27ae60;
-    /* verde suave */
     --expense-text-color: #c0392b;
-    /* rojo suave */
     --income-bg-light: #eafaf1;
     --expense-bg-light: #fdecea;
     --sidebar-background-color: #0f1c3f;
@@ -23,16 +21,15 @@ body {
     height: 100%;
     background-color: var(--body-html-color);
     overflow-x: hidden;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(14px, 1.2vw, 16px);
+    cursor: default;
 }
 
 *,
 *::before,
 *::after {
     box-sizing: border-box;
-}
-
-body {
-    font-family: 'Inter', sans-serif;
 }
 
 .main-content {
@@ -49,22 +46,73 @@ body {
 
 /* COMPONENTE SIDEBAR */
 .sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     width: 13vw;
     height: 100vh;
     background-color: var(--sidebar-background-color);
     color: white;
     padding: 20px;
-
     position: fixed;
     top: 0;
     left: 0;
     z-index: 1000;
 }
 
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 32px;
+}
+
+.sidebar-logo-icon {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1);
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-item {
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-item.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: bold;
+}
+
+.sidebar-footer {
+    font-size: 13px;
+    opacity: 0.8;
+    text-align: center;
+}
+
+
 /* TITULO DE LA PÁGINA */
 h2 {
-    padding: 20px 0px;
+    font-size: 28px;
+    font-weight: 600;
+    color: #1a1a1a;
+    padding: 20px 0 10px;
     margin: 0;
+    border-bottom: 2px solid var(--border-light);
+    width: fit-content;
 }
 
 /* COMPONENTE BALANCE E INPUTS*/
@@ -94,7 +142,7 @@ h2 {
 .cards-info {
     display: flex;
     flex-direction: column;
-    gap: 13px;
+    gap: 10px;
 }
 
 .cards-info-label {
@@ -138,8 +186,6 @@ h2 {
 
 /* inputs */
 .form-input {
-    all: unset;
-    /* limpia todos los estilos por defecto del navegador */
     width: 100%;
     padding: 12px 14px;
     border-radius: 8px;
@@ -152,12 +198,27 @@ h2 {
 
     box-sizing: border-box;
     transition: border 0.2s ease;
+    cursor: pointer;
 }
 
 .form-input:focus {
     border-color: var(--button-form-color);
     box-shadow: 0 0 0 2px rgba(123, 97, 255, 0.2);
     outline: none;
+}
+
+select:invalid {
+    color: gray;
+}
+
+option {
+    color: black;
+}
+
+input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 /* date input emoji */
@@ -197,6 +258,15 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 /* COMPONENTE DASHBOARD */
+.no-expenses {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px; /* o el alto que quieras que ocupe */
+    font-size: 18px;
+    opacity: 0.5;
+}
+
 .dashboard-container {
     background-color: #ffffff;
     border-radius: 12px;
@@ -210,6 +280,13 @@ table {
     width: 100%;
     border-collapse: collapse;
     font-size: 15px;
+    table-layout: fixed;
+}
+
+td {
+    padding: 6px 12px;
+    vertical-align: middle;
+    text-align: center;
 }
 
 th,
@@ -236,20 +313,22 @@ tbody tr:hover {
     transition: background-color 0.2s ease;
 }
 
-
 /* texto a color para income y expense*/
 .amount-chip {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-    padding: 6px 14px;
+    padding: 0 12px;
+    height: 40px;
     font-size: 14px;
     font-weight: 500;
     min-width: 90px;
     border-radius: 20px;
+    border: 1px solid var(--border-light);
     text-align: center;
     width: fit-content;
+    box-sizing: border-box;
 }
 
 .amount-chip.income {
@@ -262,4 +341,59 @@ tbody tr:hover {
     color: #e74c3c;
     background-color: #fdebea;
     border: 1px solid #f2c2bd;
+}
+
+
+/* botones editar y eliminar */
+.dashboard-buttons-container button {
+    background-color: #f1f3f5;
+    border: none;
+    padding: 6px;
+    border-radius: 6px;
+    margin: 0 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.dashboard-buttons-container button:hover {
+    background-color: #e0e3e7;
+}
+
+.dashboard-buttons-container svg {
+    color: #555;
+    width: 16px;
+    height: 16px;
+}
+
+.dashboard-buttons-container button:first-child {
+    background-color: #e0f7fa;
+}
+
+.dashboard-buttons-container button:last-child {
+    background-color: #ffeef0;
+}
+
+.dashboard-buttons-container button:first-child:hover {
+    background-color: #b2ebf2;
+}
+
+.dashboard-buttons-container button:last-child:hover {
+    background-color: #ffcdd2;
+}
+
+/* para ediciones de tabla */
+.dashboard-container input,
+.dashboard-container select {
+    width: 80%;
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-light);
+    background-color: white;
+    font-family: inherit;
+    font-size: 15px;
+    color: black;
+    box-sizing: border-box;
+    text-align: center;
+    cursor: pointer;
 }

@@ -141,7 +141,7 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense, categories }) =
                                                 />
                                             </td>
                                             <td>
-                                                <div className="dashboard-buttons-div">
+                                                <div className="dashboard-buttons-container">
                                                     <button onClick={handleSaveClick}>
                                                         <FontAwesomeIcon icon={faFloppyDisk} />
                                                     </button>
@@ -163,7 +163,7 @@ const Dashboard = ({ expenses, onDeleteExpense, onUpdateExpense, categories }) =
                                                 </div>
                                             </td>
                                             <td>
-                                                <div className="dashboard-buttons-div">
+                                                <div className="dashboard-buttons-container">
                                                     <button onClick={() => handleEditClick(expense)}>
                                                         <FontAwesomeIcon icon={faPenToSquare} />
                                                     </button>
