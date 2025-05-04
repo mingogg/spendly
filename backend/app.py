@@ -187,6 +187,49 @@ def get_categories():
     conn.close()
     return jsonify(categories)
 
+@app.route('/categories', methods=['POST'])
+def add_category():
+    data = request.get_json()
+    category = data.get('category')
+
+    if not category:
+        return jsonify({'error': 'Missing category name'}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO categories (category) VALUES (%s)', (category,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return jsonify({'message': 'Category added'}), 201
+
+@app.route('/categories/<category>', methods=['DELETE'])
+def delete_category(category):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM categories WHERE category = %s', (category,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return jsonify({'message': 'Category deleted'})
+
+@app.route('/categories/<old_name>', methods=['PUT'])
+def update_category(old_name):
+    data = request.get_json()
+    new_name = data.get('new_name')
+
+    if not new_name:
+        return jsonify({'error': 'Missing new name'}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('UPDATE categories SET category = %s WHERE category = %s', (new_name, old_name))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return jsonify({'message': 'Category updated'})
+
 
 @app.errorhandler(404)
 def not_found_error(error):

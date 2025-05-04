@@ -87,6 +87,8 @@ const App = () => {
         fetchCategories();
     }, []);
 
+
+
     return (
         <div>
             <Sidebar />
@@ -100,7 +102,8 @@ const App = () => {
 
                     <AddExpense
                         onAddExpense={fetchExpenses}
-                        categories={categories} />
+                        categories={categories}
+                        setCategories={setCategories}/>
                 </div>
                 <Dashboard
                     expenses={expenses}

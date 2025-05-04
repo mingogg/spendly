@@ -1,14 +1,17 @@
 import React, { useState } from "react";
+import CategoryModal from './CategoryModal';
 import axios from "axios";
 import "../styles/styles.css";
 import { getDateLimits } from "../utils/dateUtils";
 
 const { minDate, maxDate } = getDateLimits();
 
-const AddExpense = ({ onAddExpense, categories }) => {
+const AddExpense = ({ onAddExpense, categories, setCategories }) => {
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState("");
     const [date, setDate] = useState(maxDate);
+
+    const [showModal, setShowModal] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -45,53 +48,68 @@ const AddExpense = ({ onAddExpense, categories }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="form-container">
+        <>
+            <form onSubmit={handleSubmit} className="form-container">
 
-            <div className="form-inputs-container">
+                <div className="form-inputs-container">
 
-                <select
-                    className="form-input"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    required>
-                    <option value="" disabled hidden>Category</option>
-                    {categories && categories.map((cat, index) => (
-                        <option key={index} value={cat}>{cat}</option>
-                    ))}
-                </select>
+                    <select
+                        className="form-input"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        required>
+                        <option value="" disabled hidden>Category</option>
+                        {categories && categories.map((cat, index) => (
+                            <option key={index} value={cat}>{cat}</option>
+                        ))}
+                    </select>
 
-                <input
-                    className="form-input"
+                    <input
+                        className="form-input"
 
-                    type="number"
-                    id="amount"
-                    name="amount"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    placeholder="Amount"
-                />
+                        type="number"
+                        id="amount"
+                        name="amount"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                        placeholder="Amount"
+                    />
 
-                <input
-                    className="form-input"
-                    type="date"
-                    id="date"
-                    name="date"
-                    min={minDate}
-                    max={maxDate}
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                />
-            </div>
+                    <input
+                        className="form-input"
+                        type="date"
+                        id="date"
+                        name="date"
+                        min={minDate}
+                        max={maxDate}
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                    />
+                </div>
 
-            <div className="form-buttons-container">
-                <button name="action" value="income" className="form-button">
-                    Add Income
-                </button>
-                <button name="action" value="expense" className="form-button">
-                    Add Expense
-                </button>
-            </div>
-        </form>
+                <div className="form-buttons-container">
+                    <button type="button" className="form-button" onClick={() => setShowModal(true)}>
+                        Edit Categories
+                    </button>
+                    <button name="action" value="income" className="form-button">
+                        Add Income
+                    </button>
+                    <button name="action" value="expense" className="form-button">
+                        Add Expense
+                    </button>
+                </div>
+            </form>
+
+            {
+                showModal && (
+                    <CategoryModal
+                        onClose={() => setShowModal(false)}
+                        categories={categories}
+                        setCategories={setCategories}
+                    />
+                )
+            }
+        </>
     );
 };
 
