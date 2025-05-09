@@ -9,9 +9,9 @@ CORS(app, origins = "http://localhost:5173")
 def get_db_connection():
     conn = psycopg2.connect(
         host = "localhost",
-        database = "spendtracker",
-        user = "admin",
-        password = "admin"
+        database = "spendly",
+        user = "postgres",
+        password = "postgres"
     )
     return conn 
 
