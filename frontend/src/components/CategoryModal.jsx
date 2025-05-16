@@ -1,58 +1,117 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import "../styles/styles.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare, faTrashCan, faFloppyDisk, faXmark } from "@fortawesome/free-solid-svg-icons";
+import '../styles/styles.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faPenToSquare,
+    faTrashCan,
+    faFloppyDisk,
+    faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 
-const CategoryModal = ({ onClose, categories, setCategories }) => {
-    const [newCategory, setNewCategory] = useState("");
+const CategoryModal = ({
+    categories,
+    setCategories,
+    fetchCategories,
+    onClose,
+}) => {
+    const [newCategory, setNewCategory] = useState('');
     const [editingCategory, setEditingCategory] = useState(null);
-    const [editedValue, setEditedValue] = useState("");
+    const [editedValue, setEditedValue] = useState('');
 
     const handleAddCategory = async () => {
         if (!newCategory.trim()) return;
         try {
-            await axios.post('http://127.0.0.1:5000/categories', { category: newCategory });
+            await axios.post(
+                'http://127.0.0.1:5000/api/categories',
+                { category: newCategory },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'token'
+                        )}`,
+                    },
+                }
+            );
             setCategories([...categories, newCategory]);
-            setNewCategory("");
+            setNewCategory('');
         } catch (error) {
             console.error("There's been an error adding the category:", error);
+            if (error.response?.status === 409) {
+                alert('Esa categoría ya existe');
+            } else {
+                alert('Error al agregar la categoría');
+            }
         }
     };
 
     const handleDeleteCategory = async (category) => {
+        if (!window.confirm(`¿Eliminar la categoría "${category}"?`)) return;
+
         try {
-            await axios.delete(`http://127.0.0.1:5000/categories/${category}`);
-            setCategories(categories.filter(cat => cat !== category));
+            await axios.delete(
+                `http://127.0.0.1:5000/api/categories/${encodeURIComponent(
+                    category
+                )}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'token'
+                        )}`,
+                    },
+                }
+            );
+
+            // Actualizar lista
+            fetchCategories();
         } catch (error) {
-            console.error("There's been an error deleting the category:", error);
+            console.error(
+                "There's been an error deleting the category:",
+                error
+            );
+            alert('Error al eliminar la categoría');
         }
     };
 
     const handleEditCategory = async (oldName) => {
         try {
-            await axios.put(`http://127.0.0.1:5000/categories/${oldName}`, {
-                new_name: editedValue,
-            });
-            setCategories(categories.map(cat => (cat === oldName ? editedValue : cat)));
+            await axios.put(
+                `http://127.0.0.1:5000/api/categories/${encodeURIComponent(
+                    oldName
+                )}`,
+                { new_name: editedValue },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'token'
+                        )}`,
+                    },
+                }
+            );
+
+            fetchCategories(); // actualizá las categorías desde el backend
             setEditingCategory(null);
-            setEditedValue("");
+            setEditedValue('');
         } catch (error) {
             console.error("There's been an error editing the category:", error);
+            alert('Error al editar la categoría');
         }
     };
 
     return (
-        <div className="modal-overlay" onClick={(e) => e.target.classList.contains('modal-overlay') && onClose()}>
+        <div
+            className="modal-overlay"
+            onClick={(e) =>
+                e.target.classList.contains('modal-overlay') && onClose()
+            }
+        >
             <div className="modal-content">
                 <button onClick={onClose} className="close-button">
-
                     <FontAwesomeIcon icon={faXmark} />
                 </button>
                 <h2>Manage Categories</h2>
 
                 <div className="category-table-container">
-
                     <table className="category-table">
                         <thead>
                             <tr>
@@ -68,7 +127,11 @@ const CategoryModal = ({ onClose, categories, setCategories }) => {
                                             <input
                                                 type="text"
                                                 value={editedValue}
-                                                onChange={(e) => setEditedValue(e.target.value)}
+                                                onChange={(e) =>
+                                                    setEditedValue(
+                                                        e.target.value
+                                                    )
+                                                }
                                             />
                                         ) : (
                                             cat
@@ -76,19 +139,35 @@ const CategoryModal = ({ onClose, categories, setCategories }) => {
                                     </td>
                                     <td>
                                         {editingCategory === cat ? (
-                                            <button onClick={() => handleEditCategory(cat)}>
-                                                <FontAwesomeIcon icon={faFloppyDisk} />
+                                            <button
+                                                onClick={() =>
+                                                    handleEditCategory(cat)
+                                                }
+                                            >
+                                                <FontAwesomeIcon
+                                                    icon={faFloppyDisk}
+                                                />
                                             </button>
                                         ) : (
-                                            <button onClick={() => {
-                                                setEditingCategory(cat);
-                                                setEditedValue(cat);
-                                            }}>
-                                                <FontAwesomeIcon icon={faPenToSquare} />
+                                            <button
+                                                onClick={() => {
+                                                    setEditingCategory(cat);
+                                                    setEditedValue(cat);
+                                                }}
+                                            >
+                                                <FontAwesomeIcon
+                                                    icon={faPenToSquare}
+                                                />
                                             </button>
                                         )}
-                                        <button onClick={() => handleDeleteCategory(cat)}>
-                                            <FontAwesomeIcon icon={faTrashCan} />
+                                        <button
+                                            onClick={() =>
+                                                handleDeleteCategory(cat)
+                                            }
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faTrashCan}
+                                            />
                                         </button>
                                     </td>
                                 </tr>

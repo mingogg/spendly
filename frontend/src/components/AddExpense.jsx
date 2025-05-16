@@ -6,7 +6,12 @@ import { getDateLimits } from '../utils/dateUtils';
 
 const { minDate, maxDate } = getDateLimits();
 
-const AddExpense = ({ onAddExpense, categories, setCategories }) => {
+const AddExpense = ({
+    onAddExpense,
+    categories,
+    setCategories,
+    fetchCategories,
+}) => {
     const [error, setError] = useState(null);
     const [description, setDescription] = useState('');
     const [amount, setAmount] = useState('');
@@ -31,15 +36,22 @@ const AddExpense = ({ onAddExpense, categories, setCategories }) => {
             entrytype,
         };
 
-        console.log('🔼 Datos enviados al backend:', dataToSend);
+        /* console.log('🔼 Datos enviados al backend:', dataToSend); */
 
         try {
             const response = await axios.post(
-                'http://127.0.0.1:5000/expenses',
-                dataToSend
+                'http://127.0.0.1:5000/api/expenses',
+                dataToSend,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'token'
+                        )}`,
+                    },
+                }
             );
 
-            console.log('🔽 Datos recibidos del backend:', response.data);
+            /* console.log('🔽 Datos recibidos del backend:', response.data); */
 
             onAddExpense(response.data);
             setDescription('');
@@ -121,9 +133,10 @@ const AddExpense = ({ onAddExpense, categories, setCategories }) => {
 
             {showModal && (
                 <CategoryModal
-                    onClose={() => setShowModal(false)}
                     categories={categories}
                     setCategories={setCategories}
+                    fetchCategories={fetchCategories}
+                    onClose={() => setShowModal(false)}
                 />
             )}
         </>
