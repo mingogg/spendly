@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { API } from './config';
 
 function Login({ onLoginSuccess }) {
     const [isRegistering, setIsRegistering] = useState(false);
@@ -9,7 +10,7 @@ function Login({ onLoginSuccess }) {
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        const response = await fetch('http://127.0.0.1:5000/api/login', {
+        const response = await fetch(`${API}/api/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password }),
@@ -26,7 +27,7 @@ function Login({ onLoginSuccess }) {
     const handleRegister = async (e) => {
         e.preventDefault();
 
-        const response = await fetch('http://127.0.0.1:5000/api/register', {
+        const response = await fetch(`${API}/api/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, email, password }),

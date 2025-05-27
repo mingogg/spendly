@@ -6,6 +6,7 @@ import AddExpense from './components/AddExpense';
 import BalanceSummary from './components/BalanceSummary';
 import Login from './components/Login';
 import { calculateBalance } from './utils/calculateUtils';
+import { API } from './config';
 
 const App = () => {
     const [username, setUsername] = useState(localStorage.getItem('username'));
@@ -22,7 +23,7 @@ const App = () => {
     const fetchExpenses = async () => {
         try {
             const response = await axios.get(
-                'http://127.0.0.1:5000/api/expenses',
+                `${API}/api/expenses`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -39,7 +40,7 @@ const App = () => {
     const fetchCategories = async () => {
         try {
             const response = await axios.get(
-                'http://127.0.0.1:5000/api/categories',
+               `${API}/api/categories`,
                 {
                     headers: { Authorization: `Bearer ${token}` },
                 }
@@ -94,7 +95,7 @@ const App = () => {
 
         try {
             await axios.put(
-                `http://127.0.0.1:5000/api/expenses/${updatedExpense.id}`,
+                `${API}/api/expenses/${updatedExpense.id}`,
                 expenseToSend,
                 {
                     headers: {
@@ -119,7 +120,7 @@ const App = () => {
     const handleDeleteExpense = async (id) => {
         if (window.confirm('¿Delete expense?')) {
             try {
-                await axios.delete(`http://127.0.0.1:5000/api/expenses/${id}`, {
+                await axios.delete(`${API}/api/expenses/${id}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem(
                             'token'

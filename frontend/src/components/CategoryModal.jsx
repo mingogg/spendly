@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { API } from './config';
 import {
     faPenToSquare,
     faTrashCan,
@@ -23,7 +24,7 @@ const CategoryModal = ({
         if (!newCategory.trim()) return;
         try {
             await axios.post(
-                'http://127.0.0.1:5000/api/categories',
+                `${API}/api/categories`,
                 { category: newCategory },
                 {
                     headers: {

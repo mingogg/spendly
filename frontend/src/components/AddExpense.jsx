@@ -3,7 +3,7 @@ import CategoryModal from './CategoryModal';
 import axios from 'axios';
 import '../styles/styles.css';
 import { getDateLimits } from '../utils/dateUtils';
-
+import { API } from './config';
 const { minDate, maxDate } = getDateLimits();
 
 const AddExpense = ({
@@ -40,7 +40,7 @@ const AddExpense = ({
 
         try {
             const response = await axios.post(
-                'http://127.0.0.1:5000/api/expenses',
+                `${API}/api/expenses`,
                 dataToSend,
                 {
                     headers: {
