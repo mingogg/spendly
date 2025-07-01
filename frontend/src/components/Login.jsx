@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { API } from './config';
+import { API } from '../config';
 
 function Login({ onLoginSuccess }) {
     const [isRegistering, setIsRegistering] = useState(false);

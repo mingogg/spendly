@@ -3,7 +3,7 @@ import CategoryModal from './CategoryModal';
 import axios from 'axios';
 import '../styles/styles.css';
 import { getDateLimits } from '../utils/dateUtils';
-import { API } from './config';
+import { API } from '../config';
 const { minDate, maxDate } = getDateLimits();
 
 const AddExpense = ({

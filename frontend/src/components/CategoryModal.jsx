@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { API } from './config';
+import { API } from '../config';
 import {
     faPenToSquare,
     faTrashCan,
